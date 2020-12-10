@@ -1,0 +1,31 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+{% include "auctions/messages.html" %}
+
+  <h3 class="heading">{{ cats }} Category</h3>
+
+  {% if category_listings %}
+
+    {% for listing in category_listings %} 
+        <div class="media row">
+          <div class="col-1"></div>
+          <div class="col-3">
+            <img src="{{ listing.image.url }}" class="align-self-center mr-3" alt="{{ listing.image }}" height="150">
+          </div>
+          <div class="media-body col-8">
+            <a href="{% url 'listing' listing.id %}">
+              <h3>{{ listing.title}}</h3>
+            </a>
+            <h5 class="m-0"> <strong>Category:</strong>  {{ listing.category }}</h5>
+            <h5 class="m-0"><strong>Price: </strong> {{ listing.starting_price }}</h5>
+            <p class="m-0"> <strong>Description:</strong>  {{ listing.description }}</p> <br>
+
+            <a class="btn btn-primary" href="{% url 'listing' listing.id %}">View Listing</a>
+          </div>
+        </div> <hr>
+    {% endfor %}
+  {% else %}
+    <h5>No Item found in this category</h5>
+  {% endif %}
+{% endblock %}

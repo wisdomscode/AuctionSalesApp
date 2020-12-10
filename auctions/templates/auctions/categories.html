@@ -1,0 +1,21 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+
+
+  {% include "auctions/messages.html" %}
+
+  <h4 class="heading"> Categories</h4>
+  <div class="row">
+
+    <div class=" col">
+        {% for item in categories %}
+          <a href="{% url 'category' item.name %}">
+            <h5>{{ item.name }}</h5>
+          </a>   <hr>
+          {% endfor %}
+        </div>
+
+  </div> 
+
+{% endblock %}

@@ -1,0 +1,97 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link href="{% static 'auctions/styles.css' %}" rel="stylesheet">
+        <title>{% block title %}Auctions{% endblock %}</title>
+
+        <style>
+          #wishlist {
+            position: relative;
+            margin-right: 10px;
+          }
+          .wishlist {
+            font-size: 10px;
+            position: absolute;
+            top: 5px;
+           
+          }
+        </style>
+    </head>
+    <body>
+
+        <header class="site-header">
+            <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
+              <div class="container">
+                <span class="navbar-brand mr-4" style="font-size:1.5rem;font-weight:bold;color:#33ff00">Auctions Site</span>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle">
+                  <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarToggle">
+                  <div class="navbar-nav mr-auto">
+                        <a class="nav-item nav-item nav-link active" href="{% url 'index' %}" >Active Listings</a>
+                    
+                        <li class="nav-item dropdown">
+                          <a class="nav-link dropdown-toggle drop" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Categories
+                          </a>
+                          <div class="dropdown-menu bg-steel" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item " href="{% url 'categories' %}">View Categories</a>
+                            
+                            {% if user.is_authenticated %}
+                            <a class="dropdown-item "  href="{% url 'add_category' %}">Create Category</a>
+                            {% endif %}
+
+                          </div>
+                        </li>
+                        
+                        {% if user.is_authenticated %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle drop" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              Watchlist
+                            </a>
+                            <div class="dropdown-menu bg-steel" aria-labelledby="navbarDropdown">
+                              <a class="dropdown-item " id="wishlist" href="{% url 'wishlist' user.id %}">Watchlist</a>
+                              <a class="dropdown-item "  href="{% url 'closed_bid' %}">Closed Bids</a>
+                            </div>
+                          </li>
+
+                      <a class="nav-item nav-link " href="{% url 'create' %}" >Create Listing</a>
+                    {% endif %}
+                  </div>
+                  <!-- Navbar Right Side -->
+                  <div class="navbar-nav">
+                    {% if user.is_authenticated %}
+                        <span class=" welcome">Welcome {{ user.username }}</span> 
+                        <a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
+
+                    {% else %}
+                        <span class=" welcome">Not signed in</span> 
+                        <a class="nav-item nav-link" href="{% url 'register' %}">Register</a>
+                        <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
+
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+            </nav>
+          </header>
+
+          <div class="container">
+              {% block body %}
+              {% endblock %}
+          </div>
+       
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+
+  </body>
+</html>

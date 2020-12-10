@@ -1,0 +1,39 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+<h4 class="heading"> Closed Bids</h4>
+<table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">Title</th>
+        <th scope="col">Amount Closed</th>
+        <th scope="col">Bid Winner</th>
+        <th scope="col">Date Closed</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for bid in closed_bids %}
+      <tr>
+        <th scope="row">
+
+
+
+
+            <form action="{% url 'verdict' bid.victor %}" method="POST" >
+                {% csrf_token %}
+                <input type="text" name="bid_item" value="{{ bid.item }}" hidden>
+                <input type="text" name="user" value="{{ user.username }}" hidden>
+                <button type="submit" style="border: hidden; background-color: #fff; color: #1c9ce6; font-weight:bold;" > 
+                  {{bid.item}}
+                </button>
+              </form>
+
+        </th>
+        <td>{{ bid.amount }}</td>
+        <td>{{ bid.victor }} </td>
+        <td>{{ bid.date_closed }} </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

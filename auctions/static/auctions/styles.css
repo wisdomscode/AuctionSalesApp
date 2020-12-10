@@ -1,0 +1,50 @@
+body {
+  background: #fafafa;
+  margin-top: 5rem;
+  padding: 10px;
+}
+
+.bg-steel {
+  background-color: #38369b;
+}
+
+.welcome {
+  color: #fff;
+  line-height: 50px;
+  font-weight: bold;
+  margin-right: 30px;
+  padding-right: 10px;
+}
+.navbar-nav a {
+  font-size: 1.2rem;
+  color: #ffffff;
+}
+.navbar-nav a:hover {
+  color: #000;
+}
+.heading {
+  background-color: #38369b;
+  color: #ffffff;
+  padding: 10px 20px;
+}
+.label {
+  width: 200px;
+  display: inline-block;
+  padding-left: 20px;
+}
+.form-container {
+  width: 80%;
+  margin: auto;
+}
+.adjustment {
+  padding-left: 20px;
+}
+
+.create-form {
+  border: 1px solid #999;
+  padding: 30px;
+}
+
+.details {
+  padding-left: 400px;
+}

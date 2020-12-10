@@ -1,0 +1,31 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+<div class="form-container">
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+
+  <h4 class="heading"> Create A Listing</h4>
+  <div class="form-group create-form">
+    <form  action="{% url 'create' %}" method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <input type="submit" class="btn btn-primary" value="Create">
+    </form>
+
+  </div>
+    
+
+    <script>
+      var name = "{{ user.id }}";
+      document.getElementById('auctionier').value = name;
+    </script>
+</div>
+{% endblock %}
+

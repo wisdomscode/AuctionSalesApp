@@ -1,0 +1,155 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+
+    <div class="row">
+        <div class="col-6">
+          
+          <div class="card">
+            <img src="{{ listing.image.url }}" style="width: 500px;" class="card-img-top" alt="{{ listing.image }}">
+          </div>
+          
+        </div>
+
+        <div class="col-6">
+          <h4 class="heading">{{ listing.title}} </h4>
+          <p class="card-text" ><strong class="label">Category:</strong>  <strong>{{ listing.category }} </strong></p>
+          {% if not bid %}
+            <p class="card-text" ><strong class="label"> Starting Price:</strong> <strong> $ {{ listing.starting_price }}</strong></p>
+          {% else %}
+            <p class="card-text" ><strong class="label"> Starting Price:</strong> <strong> $ {{ listing.starting_price }} </strong></p>
+            <p class="card-text" ><strong class="label">Current Bid:</strong>  <strong> $ {{ bid.bid_amount }} </strong></p>
+            <p class="card-text" ><strong class="label">Current Bidder: </strong> <strong>{{ bid.bidder}} </strong></p>
+          {% endif %}
+          <p class="card-text" ><strong class="label">Auctioneer:</strong>  <strong>{{ listing.auctionier }} </strong></p>
+          <p class="card-text" ><strong class="label">Description:</strong>  {{ listing.description }} </p>
+          
+          <br>
+          {% if user.is_authenticated %}
+            {% ifnotequal user listing.auctionier %}
+
+                {% if wishitem %}
+                  <form action="{% url 'removeWish' %}" method="POST">
+                    {% csrf_token %}
+                    <input type="text" name="wish" value="{{listing.title}}" hidden>
+                    <input type="submit" class="btn btn-primary" value="Remove From Watchlist"><hr>
+                  </form>
+                {% else %}
+                  <form action="{% url 'wishitem' listing.id %}" method="POST">
+                    {% csrf_token %}
+                    {{ wish_form }}
+                    <input type="submit" class="btn btn-primary" value="Add To Watchlist"><hr>
+                  </form>
+                {% endif %}
+                <script>
+                  var title = "{{ listing.title }}";
+                  var category = "{{ listing.category }}";
+                  var bid_amount = "{{ bid.bid_amount }}";
+                  var winner = "{{ bid.bidder }}";
+                  var admirer = "{{ user.id }}";
+
+                  document.getElementById("title").value = title;
+                  document.getElementById("category").value = category;
+                  document.getElementById("bid_amount").value = bid_amount;
+                  document.getElementById("winner").value = winner;
+                  document.getElementById("admirer").value = admirer;
+
+
+                </script>
+            {% else %}
+              <form action="{% url 'end_bid' listing.id %}" method="POST" >
+                {% csrf_token %}
+                {{ close_form }}
+                <input type="submit" class="btn btn-primary" value="Close This Bid"> <hr>
+              </form>
+
+              <script>
+                var item = "{{ listing.title }}";
+                var amount = "{{ bid.bid_amount }}";
+                var victor = "{{ bid.bidder }}";
+
+                document.getElementById("item").value = item;
+                document.getElementById("amount").value = amount;
+                document.getElementById("victor").value = victor;
+
+
+              </script>
+            {% endifnotequal %}
+
+          {% endif %}
+        </div>
+    </div>
+
+    {% if user.is_authenticated %}
+      <div class="row">
+          <div class="col">
+            <h4 class="heading"> Bid </h4>
+            {% include "auctions/messages.html" %}
+            <div class="adjustment form-group">
+                {% if bid %}
+                  <p ><strong class="label">Current Bid:  $ {{ bid.bid_amount }}</strong></p>
+                {% else %}
+                  <p ><strong class="label"> Starting Price:</strong>  {{ listing.starting_price }}</p>
+                {% endif %}  
+
+              <form  action="{% url 'bid' listing.id %}" method="POST">
+                {% csrf_token %}
+                {{ bid_form }}
+                <br>
+                <input type="submit" class="btn btn-primary" value="Submit Bid"> <br>
+              </form>
+              <script>
+                  var listing = "{{ listing.id }}";
+                  var bidder = "{{ user.id }}";
+
+                  document.getElementById("listing_id").value = listing;
+                  document.getElementById("bidder").value = bidder;   
+
+              </script>
+            </div>
+          </div> 
+      </div><hr>
+      {% endif  %}
+  
+      <h4 class="heading"> Comments</h4>
+      {% if user.is_authenticated %}
+      <div class="row">
+        <div class="col">    
+            <div>
+              <form class="adjustment" action="{% url 'add_comment' listing.id %}" method="POST">
+                  {% csrf_token %}
+                  {{ comment_form }} <br>
+                <input type="submit" class="btn btn-primary" value="Post Comment">
+              </form>
+              <script>
+                var listing = "{{ listing.id }}";
+                var poster = "{{ user.username }}";
+
+                document.getElementById("listing").value = listing;
+                document.getElementById("poster").value = poster;        
+
+            </script>
+            </div> 
+
+      {% endif  %}
+            <br><hr>
+            <div class="adjustment">
+              
+
+                {% for comment in listing.comments.all %}
+                  <div >
+                    <strong>{{ comment.poster }} --- {{comment.date_posted }}</strong> 
+                    <p class="m-0 comments" > {{ comment.comment }} </p> 
+                    <hr>
+                  </div>
+                {% empty %}
+                  <p class="label">No Comment yet</p>
+                  <br><br>
+                {% endfor %}
+
+            </div>
+          </div>
+        </div>
+ 
+
+{% endblock %}

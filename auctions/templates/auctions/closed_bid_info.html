@@ -1,0 +1,30 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+
+
+  {% include "auctions/messages.html" %}
+
+  <h4 class="heading"> BID VERDICT ON {{ result.item }}</h4>
+  <div class="row">
+    <div class=" col" style="text-align: center;">
+        <br><hr>
+        {% if result %}
+
+        <div style="background-color:#214211; padding:10px;color: #fff;">
+          <h1>Congratulations!!!... YOU WON THE BID ON</h1>
+          <h1 class="result">{{ result.item }}</h1>
+        </div>
+        
+        {% elif message %}
+        <div style="background-color:#d41710; padding:10px;color: #fff;">
+          <h1>Ops... SORRY YOU LOST THE BID</h1>
+        </div>
+
+        {% else %}
+        {% endif %}
+        </div>
+        
+      </div> 
+      
+      {% endblock %}

@@ -1,0 +1,35 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <h2>Active Listings</h2>
+  {% include "auctions/messages.html" %}
+  {% for listing in listings %}
+      <div class="media row">
+        <div class="col-1"></div>
+        <div class="col-3">
+          <img src="{{ listing.image.url }}" class="align-self-center mr-3" alt="{{ listing.image }}" height="150">
+        </div>
+        <div class="media-body col-2">
+
+          <h5 class="m-0">  Title:</h5>
+          <h5 class="m-0">  Category: </h5>
+          <h5 class="m-0"> Price:</h5>
+          <h5 class="m-0">Auctionier: </h5>
+          <h5 class="m-0">  Description:</h5> 
+
+        </div>
+
+        <div class="media-body col-6">
+          
+          <h5 class="m-0"> <strong>{{ listing.title}}</strong></h5>
+          <h5 class="m-0">  <strong> {{ listing.category }}</strong></h5>
+          <h5 class="m-0"> <strong> {{ listing.starting_price }} </strong></h5>
+          <h5 class="m-0"> <strong> {{ listing.auctionier}} </strong></h5>
+          <p class="m-0">   {{ listing.description }} </p> <br>
+
+          <a class="btn btn-primary" href="{% url 'listing' listing.id %}">View Listing</a>
+        </div>
+
+      </div> <hr>
+  {% endfor %}
+{% endblock %}
